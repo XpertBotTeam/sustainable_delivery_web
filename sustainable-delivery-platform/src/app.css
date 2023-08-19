@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'MontserratBold';
+    src: url('./Fonts/Montserrat-Bold.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'DarkerGrotesque';
+    src: url('./Fonts/DarkerGrotesque-Bold.ttf') format('truetype');
+  }
+
+  .MontserratBold{
+    font-family: 'MontserratBold';
+  }
+
+  .DarkerGrotesque{
+    font-family:'DarkerGrotesque'
+  }
