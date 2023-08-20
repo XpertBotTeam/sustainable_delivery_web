@@ -4,8 +4,13 @@
   }
 
   @font-face {
-    font-family: 'DarkerGrotesque';
+    font-family: 'DarkerGrotesqueBold';
     src: url('./Fonts/DarkerGrotesque-Bold.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'DarkerGrotesque';
+    src: url('./Fonts/DarkerGrotesque-Medium.ttf') format('truetype');
   }
 
   .MontserratBold{
@@ -14,4 +19,8 @@
 
   .DarkerGrotesque{
     font-family:'DarkerGrotesque'
+  }
+
+  .DarkerGortesqueBold{
+    font-family: 'DaDarkerGrotesquerkeBold';
   }

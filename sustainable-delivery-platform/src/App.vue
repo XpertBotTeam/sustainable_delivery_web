@@ -1,7 +1,7 @@
 <!-- App.vue -->
 
 <template>
-  <div id="app">
+  <div class="min-h-[100vh]" id="app">
     <router-view></router-view>
   </div>
 </template>
