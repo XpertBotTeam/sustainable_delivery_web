@@ -3,10 +3,15 @@ import SvgIcon from './SvgIcon.vue';
 import UserTypeBox from './UserTypeBox.vue';
 
 import { ref, defineEmits, watch } from 'vue';
+
+//define userType variable
 const Type = ref('Company');
+
+//define event emit
 const emit = defineEmits(['Type']);
 
 watch(Type, (newValue) => {
+    //emit userType
   emit('Type',newValue)
 });
 
