@@ -33,22 +33,34 @@ const handleSubmit = async () => {
     redirect: 'follow'
     };
 
-    const response = (await fetch('http://localhost:3000/auth/login',requestOptions));
-
-    if(!response.ok){
-        if(response.status === 500){
-            //server error
-            alert('network error please try again');
-        }else if(response.status === 401 ){
-            //error in credentials
-           
-            alert('error wrong credentials');
+    fetch('http://localhost:3000/auth/login', requestOptions)
+    .then(response => {
+        if (!response.ok) {
+            if (response.status === 500) {
+                // server error
+                alert('network error please try again');
+            } else if (response.status === 401) {
+                // error in credentials     
+                alert('error wrong credentials');
+            }
+            throw new Error('Network response was not ok');
         }
-    }else{
-        //succesful so we set the jwt token
-        localStorage.setItem('jwtToken',response.jwt)
-        alert('logged in succesfully')
-    }
+        return response.json(); // This returns a promise that resolves to the JSON content
+    })
+    .then(result => {
+        // Process the result
+        // This block will only be executed if the response was ok and JSON parsing was successful
+        localStorage.setItem('jwtToken', result.jwt);
+        alert('logged in successfully');
+    })
+    .catch(err => {
+        // error handling
+        console.error(err);
+    });
+
+
+
+   
 
 }
 </script>
