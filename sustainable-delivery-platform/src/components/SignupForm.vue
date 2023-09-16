@@ -42,7 +42,7 @@ const handleSubmit = async () => {
       redirect: "follow",
     };
     //sending request
-    fetch("http://localhost:3000/auth/signup", requestOptions)
+    fetch(`https://01eb-213-204-123-80.ngrok-free.app/auth/signup`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           if (response.status === 500) {

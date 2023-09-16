@@ -7,8 +7,13 @@
 <template>
     <div>
         
-
-
+        <svg v-if="props.iconName === 'More'" width="20" height="9" viewBox="0 0 31 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Vector">
+<path d="M15.5 3C16.3629 3 17.0625 3.67157 17.0625 4.5C17.0625 5.32843 16.3629 6 15.5 6C14.6371 6 13.9375 5.32843 13.9375 4.5C13.9375 3.67157 14.6371 3 15.5 3Z" stroke="black" stroke-width="4.14" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8.28 16.56 24.84 33.12"/>
+<path d="M26.4375 3C27.3004 3 28 3.67157 28 4.5C28 5.32843 27.3004 6 26.4375 6C25.5746 6 24.875 5.32843 24.875 4.5C24.875 3.67157 25.5746 3 26.4375 3Z" stroke="black" stroke-width="4.14" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8.28 16.56 24.84 33.12"/>
+<path d="M4.5625 3C5.42545 3 6.125 3.67157 6.125 4.5C6.125 5.32843 5.42545 6 4.5625 6C3.69956 6 3 5.32843 3 4.5C3 3.67157 3.69956 3 4.5625 3Z" stroke="black" stroke-width="4.14" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8.28 16.56 24.84 33.12"/>
+</g>
+</svg>
 
 
 <svg v-if="props.iconName === 'User'" width="55" height="60" viewBox="0 0 76 85" fill="none" xmlns="http://www.w3.org/2000/svg">
