@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+
 import NavBar from '@/components/NavBar.vue';
 import SignupForm from '@/components/SignupForm.vue';
 import UserTypeBoxList from '@/components/UserTypeBoxList.vue';

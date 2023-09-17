@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gradient-to-b from-[#F7F7F7] to-[#D5D4D433]">
+  <div v-if="productCompanies!==null" class="bg-gradient-to-b from-[#F7F7F7] to-[#D5D4D433]">
     <NavBar></NavBar>
     <div v-for="products in productCompanies.companies" :key="products.id">
       <CompanyProducts :CompanyProduct="products"></CompanyProducts>

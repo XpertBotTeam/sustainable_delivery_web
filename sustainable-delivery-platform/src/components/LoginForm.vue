@@ -1,10 +1,10 @@
 
 <script setup>
 //vue router
-//import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 //define router
-//const router = useRouter();
+const router = useRouter();
 
 //ref variables
 import { ref } from 'vue';
@@ -33,7 +33,7 @@ const handleSubmit = async () => {
     redirect: 'follow'
     };
 
-    fetch(`https://01eb-213-204-123-80.ngrok-free.app/auth/login`, requestOptions)
+    fetch(`http://localhost:3000/auth/login`, requestOptions)
     .then(response => {
         if (!response.ok) {
             if (response.status === 500) {
@@ -48,20 +48,15 @@ const handleSubmit = async () => {
         return response.json(); // This returns a promise that resolves to the JSON content
     })
     .then(result => {
-        // Process the result
-        // This block will only be executed if the response was ok and JSON parsing was successful
-        localStorage.setItem('jwtToken', result.jwt);
+        //set JWT token to be used
+        localStorage.setItem('JWT', result.jwt);
         alert('logged in successfully');
+        router.push('/home')
     })
     .catch(err => {
         // error handling
         console.error(err);
     });
-
-
-
-   
-
 }
 </script>
 <template>
