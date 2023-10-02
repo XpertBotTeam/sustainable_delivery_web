@@ -1,6 +1,6 @@
 <script setup>
-import Logo from '../assets/Logo.png'
-import DropdownList from './DropdownList.vue';
+import Logo from '../../assets/Logo.png'
+import DropdownList from '../DropdownList.vue';
 </script>
 
 <template>

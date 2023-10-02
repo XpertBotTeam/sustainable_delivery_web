@@ -1,6 +1,11 @@
 <template>
   <div v-if="productCompanies!==null" class="bg-gradient-to-b from-[#F7F7F7] to-[#D5D4D433]">
     <NavBar></NavBar>
+
+    <NavBarSecondary @cartPress="()=>{handleCart = !handleCart}"></NavBarSecondary>
+    
+    <ShoppingCart v-show="handleCart"></ShoppingCart>
+
     <div v-for="products in productCompanies.companies" :key="products.id">
       <CompanyProducts :CompanyProduct="products"></CompanyProducts>
     </div>
@@ -9,13 +14,24 @@
 
 <script setup>
 import { onBeforeMount, ref } from "vue";
-import NavBar from "@/components/NavBar.vue";
+
+//navbars
+import NavBar from "@/components/NavBars/NavBar.vue";
+import NavBarSecondary from "@/components/NavBars/NavBarSecondary.vue";
+
+
+//helper functions
+//import {useUserAuth } from '../utils/useUserAuth.js';
 
 //companyProducts component
 import CompanyProducts from "@/components/CompanyProducts.vue";
+import ShoppingCart from "@/components/ShoppingCart.vue";
 
-//define company products
-const productCompanies = ref(null);
+//const { authorized } = await useUserAuth();
+
+//define ref variables
+const productCompanies = ref(null); //(company products)
+const handleCart = ref(false);
 
 const fetchData = async () => {
   try {
@@ -31,13 +47,14 @@ const fetchData = async () => {
     const data = await response.json();
     productCompanies.value = data;
     console.log(data); // Handle the data here
+
   } catch (error) {
     //error handling
     console.error("Error fetching data:", error);
   }
 };
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
   fetchData();
 });
 </script>

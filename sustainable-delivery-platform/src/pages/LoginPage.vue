@@ -1,6 +1,6 @@
 <script setup>
-import NavBar from '@/components/NavBar.vue';
-import LoginForm from '@/components/LoginForm.vue';
+import NavBar from '@/components/NavBars/NavBar.vue';
+import LoginForm from '@/components/Forms/LoginForm.vue';
 
 </script>
 

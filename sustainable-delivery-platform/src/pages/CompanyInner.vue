@@ -1,5 +1,5 @@
 <script setup>
-import NavBar from "@/components/NavBar.vue";
+import NavBar from "@/components/NavBars/NavBar.vue";
 
 //import ref for ref variables / onBeforeMount 
 import { ref,onBeforeMount } from "vue";
@@ -54,12 +54,12 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <div class="min-h-[100dvh] max-md:flex max-md:flex-col">
+  <div class="h-[100dvh] max-md:flex max-md:flex-col overflow-hidden">
     <NavBar></NavBar>
-
-    <div v-if="CompanyDetails != null" class="w-full min-h-[70dvh] mb-10 overflow-hidden">
+  
+    <div v-if="CompanyDetails != null" class="w-full h-full  overflow-hidden">
       <img
-        class="w-full max-h-full object-cover"
+        class="w-full h-full object-cover"
         @error="
           (event) => {
             event.target.src =
@@ -69,9 +69,10 @@ onBeforeMount(() => {
         :src="CompanyDetails.bannerImage"
       />
     </div>
+  </div>
 
-    <div v-if=" CompanyDetails" class="flex max-md:overflow-scroll md:grid grid-cols-3 gap-5 w-[85%] mx-auto">
+    <div v-if=" CompanyDetails" class="flex max-md:overflow-scroll md:grid grid-cols-3 gap-5 w-[85%] mx-auto mt-10">
                 <ProductsCards  v-for="product in CompanyDetails.products" :Product="product" :key="product.productId"></ProductsCards>
     </div>
-  </div>
+  
 </template>

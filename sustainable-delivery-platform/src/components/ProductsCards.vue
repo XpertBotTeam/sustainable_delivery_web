@@ -68,7 +68,7 @@ const handleAddToCart = async () => {
     
       <button
         @click.prevent="handleAddToCart"
-        class="text-white bg-[black] text-[16px] rounded-[12px] px-3 py-1 DarkerGrotesque"
+        class="orderButton"
       >
         Add to cart
       </button>

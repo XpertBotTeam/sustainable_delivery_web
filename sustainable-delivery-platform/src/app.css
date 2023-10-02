@@ -24,3 +24,7 @@
   .DarkerGortesqueBold{
     font-family: 'DaDarkerGrotesquerkeBold';
   }
+
+  .orderButton{
+    @apply text-white bg-[black] text-[16px] rounded-[12px] px-3 py-1 DarkerGrotesque
+  }

@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 
-import NavBar from '@/components/NavBar.vue';
-import SignupForm from '@/components/SignupForm.vue';
+import NavBar from '@/components/NavBars/NavBar.vue';
+import SignupForm from '@/components/Forms/SignupForm.vue';
 import UserTypeBoxList from '@/components/UserTypeBoxList.vue';
 
 const Type = ref('Company'); 
