@@ -3,6 +3,22 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import MotorcycleImage from '../assets/MotorcycleAll.png'
 import ShoppingCartCompany from './ShoppingCartCompany.vue';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+
+import { watch } from 'vue';
+
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore();
+const cart = computed(() => store.state.cart);
+//console.log(cart); 
+watch(() => cart.value, (newCart, oldCart) => {
+  // This function will be called whenever the cart state changes
+  alert(JSON.stringify(newCart))
+  console.log('old cart:', oldCart);
+  console.log('Cart has changed:', newCart);
+  alert(JSON.stringify(newCart))
+},{ deep: true });
 </script>
 <template>
     <div class="w-[25%] fixed top-0 right-0 bg-white rounded-[11px] overflow-auto h-[100dvh] flex flex-col justify-between">
@@ -13,9 +29,8 @@ import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
             <div class="text-black MontserratBold text-[24px]">MyCart</div>
         </div>
         <div class="flex-1 overflow-auto max-h-[420px]">
-            <ShoppingCartCompany></ShoppingCartCompany>
-            <ShoppingCartCompany></ShoppingCartCompany>
-            <ShoppingCartCompany></ShoppingCartCompany>
+            <ShoppingCartCompany :Company="cartCompany" v-for="cartCompany in cart" :key="cartCompany._id"></ShoppingCartCompany>
+            
         </div>
         </div>
         

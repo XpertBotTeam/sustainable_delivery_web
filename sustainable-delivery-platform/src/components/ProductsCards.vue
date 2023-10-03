@@ -1,8 +1,12 @@
 <script setup>
 import { defineProps } from "vue";
 
+//import vuex store:
+import { useStore } from 'vuex';
+const store = useStore();
+
 //define props variables
-const props = defineProps(["Product"]);
+const props = defineProps(["Product","companyName"]);
 
 //add to cart funcxtionality
 const handleAddToCart = async () => {
@@ -30,10 +34,11 @@ const handleAddToCart = async () => {
     `http://localhost:3000/user/addToCart?companyId=${companyId}&productId=${productId}`,
      requestOptions
   );
-
+  
   if(!result.ok){
     console.log(result.json());
   }else{
+    store.dispatch('addToCart', { companyId, product: {id:productId,price: props.Product.productId.price,name: props.Product.productId.name}, quantity:1 ,companyName: props.companyName});
     alert('added to cart succesfully')
   }
    }catch(err){

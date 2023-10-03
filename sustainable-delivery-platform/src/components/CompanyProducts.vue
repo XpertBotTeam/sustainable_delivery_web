@@ -20,7 +20,7 @@
         <img class=" w-full max-h-[300px]  mb-10" @error="(event) => { event.target.src = 'https://tse3.mm.bing.net/th?id=OIP.FjLkalx51D8xJcpixUGJywHaE8&pid=Api&P=0&h=180' }" :src="props.CompanyProduct.bannerImage"/>
     </div>
 
-        <div class="w-[85%] mx-auto">
+        <div class="w-[min(85%,1000px)] mx-auto">
             <div class="w-full flex justify-between mb-10">
                 <div class="px-5 py-1  rounded-[12px] bg-[#FFAB08] flex items-center justify-center w-fit DarkerGrotesque text-white text-[18px]">Best Seller</div>
 
@@ -31,7 +31,7 @@
             </div>
 
             <div v-if=" props.CompanyProduct" class="flex max-md:overflow-scroll md:grid grid-cols-3 gap-5 max-w-full">
-                <ProductsCards  v-for="product in props.CompanyProduct.products.slice(0,3)" :Product="product" :key="product.productId"></ProductsCards>
+                <ProductsCards   v-for="product in props.CompanyProduct.products.slice(0,3)" :Product="product" :key="product.productId" :companyName="props.CompanyProduct.name"></ProductsCards>
             </div>
         </div>
     </div>

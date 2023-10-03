@@ -28,3 +28,15 @@
   .orderButton{
     @apply text-white bg-[black] text-[16px] rounded-[12px] px-3 py-1 DarkerGrotesque
   }
+
+  .colorCompany{
+      @apply bg-[#FF9900]
+  }
+
+  .colorUser{
+    @apply bg-[#000000]
+  }
+
+  .colorDelivery{
+    @apply bg-[#01AB78]
+  }
