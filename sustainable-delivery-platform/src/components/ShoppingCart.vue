@@ -19,6 +19,8 @@ watch(() => cart.value, (newCart, oldCart) => {
   console.log('Cart has changed:', newCart);
   alert(JSON.stringify(newCart))
 },{ deep: true });
+
+
 </script>
 <template>
     <div class="w-[25%] fixed top-0 right-0 bg-white rounded-[11px] overflow-auto h-[100dvh] flex flex-col justify-between">

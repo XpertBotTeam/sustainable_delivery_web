@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps } from "vue";
+import { defineProps,ref,onBeforeMount,computed } from "vue";
 
 //import vuex store:
 import { useStore } from 'vuex';
@@ -7,6 +7,14 @@ const store = useStore();
 
 //define props variables
 const props = defineProps(["Product","companyName"]);
+
+const userType = ref(null)
+//extract userType
+onBeforeMount(()=>{
+    const store = useStore();
+    userType.value = computed(() => store.state.userType);
+    
+})
 
 //add to cart funcxtionality
 const handleAddToCart = async () => {
@@ -53,8 +61,9 @@ const handleAddToCart = async () => {
     class="min-w-[290px] w-full rounded-[42px] bg-white shadow-[0_4px_10px_1px_rgba(12,12,12,0.37)] p-5"
   >
     <img
-      class="w-full mb-5 max-h-[327px] bg-cover"
-      :src="props.Product.productId.imagePath"
+    :onerror="(e)=>{e.target.src='https://commercial.bunn.com/img/image-not-available.png'}"
+      class="w-full mb-5  w-full h-[250px] object-contain"
+      :src="props.Product.productId.imagePath || 'https://commercial.bunn.com/img/image-not-available.png'"
     />
 
     <div>
@@ -70,8 +79,8 @@ const handleAddToCart = async () => {
       <div class="Roboto text-[14px] mb-[10px]">
         $<b>{{ props.Product.productId.price }}</b>
       </div>
-    
       <button
+      v-if="userType.value === 'User'"
         @click.prevent="handleAddToCart"
         class="orderButton"
       >

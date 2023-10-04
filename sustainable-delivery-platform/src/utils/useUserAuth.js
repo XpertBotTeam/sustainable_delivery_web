@@ -1,3 +1,4 @@
+
 const useUserAuth = async () => {
 
   const authToken = localStorage.getItem("JWT");
@@ -43,6 +44,7 @@ const useUserAuth = async () => {
   } else {
     return { authorized: false, userType: null, JWT: null,user:null };
   }
+  
 }
 
 export { useUserAuth };
