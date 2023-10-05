@@ -18,6 +18,16 @@ library.add(fas);
 
 const routes = [
   {
+    path: '/shop/company/:id',
+    name:'Company',
+    component:CompanyInner
+  },
+  {
+    path: '/deliveryGuy',
+    name:'DeliveryGuy',
+    component:DeliveryGuyPage
+  },
+  {
     path: '/',
     name: 'Signup',
     component: Signup
@@ -31,17 +41,9 @@ const routes = [
     name:'HomePage',
     component:HomePage
   },{
-    path: '/shop/company/:id',
-    name:'Company',
-    component:CompanyInner
-  },{
     path: '/profile',
     name:'Company',
     component:ProfilePage
-  },{
-    path: '/deliveryGuy',
-    name:'DeliveryGuy',
-    component:DeliveryGuyPage
   }
   // Add more routes as needed
 ];

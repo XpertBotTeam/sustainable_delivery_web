@@ -42,6 +42,9 @@ onBeforeMount(async()=>{
 //auth check and set store variables
   const {userType,authorized} = await useUserAuth()
   store.dispatch('setAuth', {authorized,userType});
+
+  //fetching data (company products)
+  fetchData();
 })
 
 //define ref variables
@@ -70,8 +73,4 @@ const fetchData = async () => {
   }
 };
 
-
-onBeforeMount(async () => {
-  fetchData();
-});
 </script>

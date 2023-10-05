@@ -9,8 +9,20 @@ import { useRouter } from "vue-router";
 //productCompany card component
 import ProductsCards from "@/components/ProductsCards.vue";
 
+import { useStore } from "vuex";
+import { useUserAuth } from "@/utils/useUserAuth";
 //define router
 const router = useRouter();
+
+onBeforeMount(async()=>{
+  //define store
+  const store = useStore();
+
+//auth check and set store variables
+  const {userType,authorized} = await useUserAuth()
+  store.dispatch('setAuth', {authorized,userType});
+})
+
 
 //define company products
 const CompanyDetails = ref(null);

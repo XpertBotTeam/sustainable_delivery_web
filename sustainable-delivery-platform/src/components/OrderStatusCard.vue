@@ -2,7 +2,9 @@
 import MapComponent from './MapComponent.vue';
 import TagComponent from './TagComponent.vue';
 
-
+//define props variables
+import { defineProps } from 'vue';
+const props = defineProps(['order'])
 </script>
 <template>
     <div class="w-[min(85%,1000px)] mx-auto rounded-[42px] shadow-[0_4px_10px_1px_rgba(12,12,12,0.37)] bg-white p-5 gap-5">
@@ -24,7 +26,7 @@ import TagComponent from './TagComponent.vue';
                 <div class="DarkerGrotesque text-[24px]">Price</div>
                 <div class="Roboto text-[18px] text-[#D9D9D9]">asdasdasd$</div>
             </div>
-            <TagComponent :color="`black`" class="w-full mt-5">stasdasdatus</TagComponent>
+            <TagComponent :color="`black`" class="w-full mt-5">{{ props.order.status }}</TagComponent>
         </div>
         <MapComponent class="min-h-[190px] min-w-[240px] rounded-[20px]"></MapComponent>
        </div>
