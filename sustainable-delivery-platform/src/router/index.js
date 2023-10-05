@@ -7,7 +7,8 @@ import Signup from '../pages/SignupPage.vue';//signup
 import Login from '../pages/LoginPage.vue';//login page
 import HomePage from '../pages/HomePage.vue';//shop page
 import CompanyInner from '../pages/CompanyInner.vue'//shop company page
-import ProfilePage from '../pages/ProfilePage.vue'
+import ProfilePage from '../pages/ProfilePage.vue'//profile page
+import DeliveryGuyPage from '../pages/DeliveryGuyPage.vue'//deliveryGuy page
 
 
 //fontawesome icons
@@ -37,6 +38,10 @@ const routes = [
     path: '/profile',
     name:'Company',
     component:ProfilePage
+  },{
+    path: '/deliveryGuy',
+    name:'DeliveryGuy',
+    component:DeliveryGuyPage
   }
   // Add more routes as needed
 ];

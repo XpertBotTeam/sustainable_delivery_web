@@ -3,7 +3,7 @@ import { defineProps } from 'vue';
 
 //define props
 const props = defineProps(['color'])
-alert(props.color)
+console.log(props.color)
 </script>
 <template>
     <div :style="{ 'background-color': props.color }" :class="`orderButton text-center`"><slot></slot></div>

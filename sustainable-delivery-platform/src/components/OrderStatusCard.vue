@@ -24,7 +24,7 @@ import TagComponent from './TagComponent.vue';
                 <div class="DarkerGrotesque text-[24px]">Price</div>
                 <div class="Roboto text-[18px] text-[#D9D9D9]">asdasdasd$</div>
             </div>
-            <TagComponent :color="`red`" class="w-full mt-5">stasdasdatus</TagComponent>
+            <TagComponent :color="`black`" class="w-full mt-5">stasdasdatus</TagComponent>
         </div>
         <MapComponent class="min-h-[190px] min-w-[240px] rounded-[20px]"></MapComponent>
        </div>

@@ -3,6 +3,10 @@
 import { onMounted } from 'vue';
 import {Loader} from '@googlemaps/js-api-loader'
 
+//generate unique key for mapid
+import { v4 as uuidv4 } from 'uuid';
+const uniqueId = uuidv4();
+
 //define props
 const props = defineProps(['center'])
 
@@ -13,13 +17,17 @@ onMounted(async () => {
   //const directionsService = new google.maps.DirectionsService();
   //const directionsRenderer = new google.maps.DirectionsRenderer();
 
+
+  //map options to set  
   const mapOptions = {
     zoom: 9,
     center: props.center??{ lat: 61.180059, lng: -149.822075 },
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     streetViewControl: false
   };
-  const map = new google.maps.Map(document.getElementById('map'),mapOptions)
+
+  //generate map
+  const map = new google.maps.Map(document.getElementById(uniqueId),mapOptions)
   console.log(typeof(map))
 
   //directionsRenderer.setMap(map);
@@ -44,5 +52,5 @@ onMounted(async () => {
 
 <template>
   
-  <div id="map"></div>
+  <div :id="uniqueId"></div>
 </template>
