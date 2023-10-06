@@ -83,7 +83,7 @@ onBeforeMount(() => {
     </div>
   </div>
 
-    <div v-if=" CompanyDetails" class="flex max-md:overflow-scroll md:grid grid-cols-3 gap-5 w-[85%] mx-auto mt-10">
+    <div v-if=" CompanyDetails" class="flex max-md:overflow-scroll md:grid grid-cols-3 gap-5 w-[min(85%,1000px)] mx-auto mt-10">
                 <ProductsCards  v-for="product in CompanyDetails.products" :Product="product" :key="product.productId"></ProductsCards>
     </div>
   

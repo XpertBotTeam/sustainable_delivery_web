@@ -7,6 +7,10 @@ export default new Vuex.Store({
     userAuth:false
   },
   mutations: {
+    setUser(state,{user}){
+      state.user = user;
+      alert(user)
+    },
     addToCart(state, { companyId, product, quantity,companyName }) {
       //find company
       const companyOrder = state.cart.find(order => order.companyId === companyId);
@@ -80,6 +84,8 @@ export default new Vuex.Store({
     },
     setAuth({ commit },{userAuth,userType}){
       commit('setAuth',{userAuth,userType});
+    },setUser({ commit },{user}){
+      commit('setUser',{user});
     }
   }
 });

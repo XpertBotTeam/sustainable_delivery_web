@@ -42,7 +42,7 @@ const routes = [
     component:HomePage
   },{
     path: '/profile',
-    name:'Company',
+    name:'Prodile',
     component:ProfilePage
   }
   // Add more routes as needed

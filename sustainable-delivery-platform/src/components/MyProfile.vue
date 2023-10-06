@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount, watch } from 'vue';
 
 //fontawesome icons
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -9,9 +9,13 @@ import { faLocationDot, faPenToSquare, faPhone } from "@fortawesome/free-solid-s
 import MapComponent from "./MapComponent.vue";
 import { useUserAuth } from "@/utils/useUserAuth";
 
+//get user location
+import useGetLocation from '@/utils/useGetLocation';
+
 //define ref variables
 const user = ref(null);
 const userType = ref(null);
+const center = ref(null)
 
 onBeforeMount(async () => {
   //set user value
@@ -20,6 +24,19 @@ onBeforeMount(async () => {
   userType.value = fetchedUserType;
 });
 
+//get center location
+watch(user,async(newValue)=> {
+  if(newValue.address && newValue.address.longitude && newValue.address.latitude){
+    //address found from the backend
+    alert('founded: '+JSON.stringify({lng:newValue.address.longitude,lat:newValue.address.latitude}))
+    center.value = {lng:newValue.address.longitude,lat:newValue.address.latitude}
+  }else{
+    //address not found from backend so we extract user address
+    center.value =  await useGetLocation();
+    alert('not found '+JSON.stringify(await useGetLocation()))
+  }
+
+})
 </script>
 
 
@@ -76,7 +93,7 @@ onBeforeMount(async () => {
         </button>
         
       </div>
-      <MapComponent class="h-[150px] w-[200px]" :center="{ lat: (user && user.address && user.address.latitude)?user.address.latitude:0, lng:  (user && user.address && user.address.longitude)?user.address.longitude:0 }"></MapComponent>
+      <MapComponent v-if="center" class="h-[150px] w-[200px]" :center="center"></MapComponent>
     </div>
 
       

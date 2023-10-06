@@ -1,6 +1,6 @@
 <script setup>
 /* eslint-disable no-undef */
-import { onMounted } from 'vue';
+import { onMounted, } from 'vue';
 import {Loader} from '@googlemaps/js-api-loader'
 
 //generate unique key for mapid
@@ -20,14 +20,36 @@ onMounted(async () => {
 
   //map options to set  
   const mapOptions = {
-    zoom: 9,
-    center: props.center??{ lat: 61.180059, lng: -149.822075 },
+    zoom: 14,
+    center: props.center?props.center:{ lat: 61.180059, lng: -149.822075 },
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     streetViewControl: false
   };
 
   //generate map
   const map = new google.maps.Map(document.getElementById(uniqueId),mapOptions)
+
+  new google.maps.Marker({
+    position: props.center ,
+    map,
+    title: "Hello World!",
+  })
+
+  //get location
+  map.addListener("click", (mapsMouseEvent) => {
+    alert(mapsMouseEvent.latLng)
+  });
+  
+  
+  
+
+  
+  /*var marker = new google.maps.Marker({
+      position: props.center,
+      map: map,
+   });
+   console.log(marker)*/
+
   console.log(typeof(map))
 
   //directionsRenderer.setMap(map);

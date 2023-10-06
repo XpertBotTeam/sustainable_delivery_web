@@ -20,6 +20,8 @@ onBeforeMount(async ()=>{
     //not awuthorized
     router.push('/')
   }
+
+
 })
 
 

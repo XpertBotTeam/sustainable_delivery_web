@@ -40,8 +40,9 @@ onBeforeMount(async()=>{
   const store = useStore();
 
 //auth check and set store variables
-  const {userType,authorized} = await useUserAuth()
+  const {userType,authorized,user} = await useUserAuth()
   store.dispatch('setAuth', {authorized,userType});
+  store.dispatch('setUser',{user})
 
   //fetching data (company products)
   fetchData();
