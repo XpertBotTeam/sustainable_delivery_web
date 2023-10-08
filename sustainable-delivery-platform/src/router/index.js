@@ -9,6 +9,7 @@ import HomePage from '../pages/HomePage.vue';//shop page
 import CompanyInner from '../pages/CompanyInner.vue'//shop company page
 import ProfilePage from '../pages/ProfilePage.vue'//profile page
 import DeliveryGuyPage from '../pages/DeliveryGuyPage.vue'//deliveryGuy page
+import CompanyDetails from '../pages/CompanyDetails.vue' //company details, add edit products
 
 
 //fontawesome icons
@@ -17,6 +18,11 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 library.add(fas);
 
 const routes = [
+  {
+    path: '/company',
+    name:'Company Details',
+    component:CompanyDetails
+  },
   {
     path: '/shop/company/:id',
     name:'Company',

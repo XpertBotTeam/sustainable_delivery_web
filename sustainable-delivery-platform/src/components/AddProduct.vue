@@ -1,48 +1,101 @@
 <script setup>
-import { ref} from "vue";
+import addImage from '../assets/addImage.png'
+import { ref,defineProps, onBeforeMount, watch} from "vue";
 //define ref variables
 const price = ref(null);
 const name = ref(null);
+let uploadedFile =ref();
 const description = ref(null);
 const tags = ref(null);
 
+const product = ref(null)
 //props variables
+const props = defineProps(['productId']);
+onBeforeMount(()=>{
+ if(props.productId){
+    fetchData();
+ }
+})
 
-tags.value = "";
+//fetch data
+const fetchData = () => {
+  var myHeaders = new Headers();
+myHeaders.append("jwt", localStorage.getItem('JWT'));
 
-//handle add and edit product
+var requestOptions = {
+  method: 'GET',
+  headers: myHeaders,
+  redirect: 'follow'
+};
+
+fetch(`http://localhost:3000/shop/getProductsByCompany?productId=${props.productId}`, requestOptions)
+  .then(response => response.json())
+  .then(result => {
+    product.value = result.products[0]  })
+  .catch(error => console.log('error', error));
+}
+
+//setting uploadedFile variable
+const handelFileChange = (event) => {
+  uploadedFile.value = event.target.files[0]
+}
+watch(product,(newValue)=>{
+  alert(JSON.stringify(newValue));
+},{deep:true})
+//open file uploader
+const handleFileOpener = () => {
+  const input = document.getElementById('fileInput')
+  input.click();
+
+  input.addEventListener('change',(event)=>{
+    const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const imgElement = document.getElementById('imgFile');
+                imgElement.src = e.target.result;
+            }
+
+            reader.readAsDataURL(file);
+  })
+}
+
+//form submit
 const handleSubmit = (event) => {
-    alert('done')
-    event.preventDefault()
-  
+    event.preventDefault();
+
+    const formData = new FormData();
+
+    // Append fields to FormData
+    formData.append('name', name.value);
+    formData.append('imagePath', uploadedFile.value);
+    formData.append('price', price.value);
+    formData.append('tags', tags.value);
+
     //set headers
     var myHeaders = new Headers();
     myHeaders.append(
       "jwt",
       localStorage.getItem('JWT')
     );
-    myHeaders.append("Content-Type", "application/json");
-
-    var raw = JSON.stringify({
-      name: name.value,
-      imagePath: "Image Pathssssss",
-      price: price.value,
-      tags: tags.value,
-    });
 
     var requestOptions = {
       method: "POST",
       headers: myHeaders,
-      body: raw,
+      body: formData, // Pass FormData directly as the body
       redirect: "follow",
     };
 
-    fetch("http://localhost:3000/company/addProduct", requestOptions)
+    fetch(`http://localhost:3000/company/${props.productId ? `editProduct?productId=${props.productId}` : 'addProduct'}`, requestOptions)
       .then((response) => response.json())
-      .then((result) =>{if(result){alert('added succesfully')}})
+      .then((result) => {
+        if(result) {
+          alert('added successfully');
+        }
+      })
       .catch((error) => console.log("error", error));
-  
 };
+
 </script>
 <template>
   <form method="post" @submit="handleSubmit">
@@ -59,9 +112,13 @@ const handleSubmit = (event) => {
       <div class="px-10 flex items-end gap-5 mb-5">
         <div>
           <div class="DarkerGrotesque text-[18px] mb-[5px]">Add Image</div>
+          <input @change="handelFileChange" class="hidden" id="fileInput" type="file" />
+
           <img
+            @click="handleFileOpener"
+            id="imgFile"
             class="w-[175px]"
-            src="../assets//addImage.png"
+            :src="((product && product.imagePath) ? product.imagePath  : addImage)"
             alt="'Add Product'"
           />
         </div>
@@ -73,7 +130,7 @@ const handleSubmit = (event) => {
               name="price"
               class="bg-[transparent] w-[70px] pl-3 w-[100px] rounded-l-[12px] py-1"
               type="number"
-              placeholder="0"
+              :placeholder="(product && product.price ? product.price : 0 )"
             />$
           </div>
         </div>
@@ -84,7 +141,7 @@ const handleSubmit = (event) => {
         <input
           v-model="name"
           name="productName"
-          placeholder="product name"
+          :placeholder="(product && product.name ? product.name : 'product name' )"
           class="rounded-[12px] py-1 px-3 bg-[#D9D9D9] pr-3"
         />
       </div>
@@ -94,7 +151,7 @@ const handleSubmit = (event) => {
         <textarea
           v-model="description"
           name="description"
-          placeholder="description"
+          :placeholder="(product && product.description ? product.description : 'description' )"
           class="rounded-[12px] py-1 px-3 bg-[#D9D9D9] pr-3 w-full aspect-[5/1]"
         ></textarea>
       </div>

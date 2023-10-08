@@ -17,6 +17,13 @@ const user = ref(null);
 const userType = ref(null);
 const center = ref(null)
 
+const editMode = ref(false);
+
+//toggle edit mode
+const toggleEditMode = () => {
+  editMode.value = !editMode.value
+}
+
 onBeforeMount(async () => {
   //set user value
   const { user: fetchedUser, userType: fetchedUserType } = await useUserAuth();
@@ -52,7 +59,7 @@ watch(user,async(newValue)=> {
         <div class="DarkerGrotesque text-[16px]">
           Update profile picture
         </div>
-        <button>
+        <button class="z-[200]" @click ='toggleEditMode'>
           <FontAwesomeIcon :icon="faPenToSquare"></FontAwesomeIcon>
         </button>
       </div>
@@ -64,10 +71,12 @@ watch(user,async(newValue)=> {
         <div class="DarkerGrotesque text-[16px]">
           Full Name
         </div>
-        <div class="Roboto text-[14px] text-[#929292]">
+        <div v-if="editMode === false" class="Roboto text-[14px] text-[#929292]">
           {{ (user && user.name)?user.name:'name' }}
         </div>
-        <button>
+        <input v-if="editMode === true"  :placeholder=" (user && user.name)?user.name:'name'" class="Roboto text-[14px] text-[#929292] max-w-fit border border-solid border-[black]">
+      
+        <button class="z-[200]"  @click ='toggleEditMode'>
           <FontAwesomeIcon :icon="faPenToSquare"></FontAwesomeIcon>
         </button>
       </div>
@@ -88,12 +97,15 @@ watch(user,async(newValue)=> {
           <FontAwesomeIcon class="mr-[10px]" :icon="faLocationDot"/>
           <div>Location</div>
         </div>
-        <button>
-          <FontAwesomeIcon :icon="faPenToSquare"></FontAwesomeIcon>
+        <button class="z-[200]"  @click ='toggleEditMode'>
+          <FontAwesomeIcon  :icon="faPenToSquare"></FontAwesomeIcon>
         </button>
         
       </div>
       <MapComponent v-if="center" class="h-[150px] w-[200px]" :center="center"></MapComponent>
+      <div v-if="center" class="Roboto text-[14px] text-[#929292]">
+          Select a location to udate your location
+        </div>
     </div>
 
       
@@ -109,7 +121,7 @@ watch(user,async(newValue)=> {
         <div class="Roboto text-[14px] text-[#929292]">
           {{ (user && user.userName)?user.userName:'userName' }}
         </div>
-        <button>
+        <button  @click ='toggleEditMode'>
           <FontAwesomeIcon :icon="faPenToSquare"></FontAwesomeIcon>
         </button>
         

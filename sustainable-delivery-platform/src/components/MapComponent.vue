@@ -1,6 +1,6 @@
 <script setup>
 /* eslint-disable no-undef */
-import { onMounted, } from 'vue';
+import { onMounted, defineEmits} from 'vue';
 import {Loader} from '@googlemaps/js-api-loader'
 
 //generate unique key for mapid
@@ -9,6 +9,10 @@ const uniqueId = uuidv4();
 
 //define props
 const props = defineProps(['center'])
+
+
+//define emit events
+const emit = defineEmits(['onLocationChange'])
 
 const loader = new Loader({apiKey:process.env.VUE_APP_GOOGLE_API_KEY})
 onMounted(async () => {
@@ -29,15 +33,19 @@ onMounted(async () => {
   //generate map
   const map = new google.maps.Map(document.getElementById(uniqueId),mapOptions)
 
-  new google.maps.Marker({
+  const marker = new google.maps.Marker({
     position: props.center ,
     map,
     title: "Hello World!",
   })
+  console.log(marker)
+
+
 
   //get location
   map.addListener("click", (mapsMouseEvent) => {
-    alert(mapsMouseEvent.latLng)
+    emit('onLocationChange',mapsMouseEvent.latLng);
+    marker.setPosition(mapsMouseEvent.latLng)
   });
   
   

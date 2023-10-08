@@ -6,7 +6,7 @@ import { useStore } from 'vuex';
 const store = useStore();
 
 //define props variables
-const props = defineProps(["Product","companyName"]);
+const props = defineProps(["Product","companyName","edit"]);
 
 const userType = ref(null)
 //extract userType
@@ -58,16 +58,16 @@ const handleAddToCart = async () => {
 
 <template>
   <div
-    class="min-w-[290px] w-full rounded-[42px] bg-white shadow-[0_4px_10px_1px_rgba(12,12,12,0.37)] p-5"
+    :class="`min-w-[290px] w-full relative rounded-[42px] group ${props.edit?'hover:bg-[#D9D9D9]' : ' bg-[white]'} duration-[300ms] shadow-[0_4px_10px_1px_rgba(12,12,12,0.37)] p-5`"
   >
     <img
     :onerror="(e)=>{e.target.src='https://commercial.bunn.com/img/image-not-available.png'}"
-      class="w-full mb-5  w-full h-[250px] object-contain"
+      :class="`w-full mb-5  w-full h-[250px] object-contain ${props.edit? 'group-hover:blur-[8px]' : ''}`"
       :src="props.Product.productId.imagePath || 'https://commercial.bunn.com/img/image-not-available.png'"
     />
 
-    <div>
-      <div class="mb-5">
+    <div :class="`${props.edit? 'group-hover:blur-[8px]' : ''}`">
+      <div :class="`mb-5 `">
         <div class="MontserratBold text-[14px] text-[black]">
           {{ props.Product.productId.name }}
         </div>
@@ -87,5 +87,7 @@ const handleAddToCart = async () => {
         Add to cart
       </button>
     </div>
+
+    <div class="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]"></div>
   </div>
 </template>

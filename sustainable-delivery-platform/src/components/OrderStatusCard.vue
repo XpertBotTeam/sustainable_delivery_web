@@ -22,7 +22,7 @@ import useParseAddress from '../utils/useParseAddress'
             </div>
             <div class="flex gap-5 items-center">
                 <div class="DarkerGrotesque text-[24px]">Address</div>
-                <div class="Roboto text-[18px] text-[#D9D9D9]">{{useParseAddress({longitude:props.order.userId.address.longitude||null,latitude:props.order.userId.address.longitude||null}) || `${props.order.userId.address.country} / ${props.order.userId.address.city}` }}</div>
+                <div class="Roboto text-[18px] text-[#D9D9D9]">{{ `${props.order.userId.address.country} / ${props.order.userId.address.city}`  || useParseAddress({longitude:props.order.userId.address.longitude||null,latitude:props.order.userId.address.longitude||null}) }}</div>
             </div>
             <div class="flex gap-5 items-center">
                 <div class="DarkerGrotesque text-[24px]">Order Date</div>
