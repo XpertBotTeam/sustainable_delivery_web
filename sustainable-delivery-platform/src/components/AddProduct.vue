@@ -1,16 +1,27 @@
 <script setup>
 import addImage from '../assets/addImage.png'
-import { ref,defineProps, onBeforeMount, watch} from "vue";
+import { ref,defineProps, onBeforeMount, watch,defineEmits} from "vue";
 //define ref variables
 const price = ref(null);
 const name = ref(null);
 let uploadedFile =ref();
 const description = ref(null);
-const tags = ref(null);
+const tags = ref([]);
 
 const product = ref(null)
+
+
+const tagInputRef = ref(null)
+
+
 //props variables
 const props = defineProps(['productId']);
+
+
+//define emits for events
+const emit = defineEmits(['onCloseForm']);
+
+
 onBeforeMount(()=>{
  if(props.productId){
     fetchData();
@@ -60,8 +71,16 @@ const handleFileOpener = () => {
   })
 }
 
+//to handle tags added
+const pushTag =() => {
+  tags.value.push(tagInputRef.value);
+  tagInputRef.value = ''
+}
+
+
 //form submit
 const handleSubmit = (event) => {
+   
     event.preventDefault();
 
     const formData = new FormData();
@@ -85,10 +104,12 @@ const handleSubmit = (event) => {
       body: formData, // Pass FormData directly as the body
       redirect: "follow",
     };
+    
 
-    fetch(`http://localhost:3000/company/${props.productId ? `editProduct?productId=${props.productId}` : 'addProduct'}`, requestOptions)
+    fetch(`http://localhost:3000/company/${props.productId !== null ? `editProduct?productId=${props.productId}` : 'addProduct'}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
+        emit('onCloseForm');
         if(result) {
           alert('added successfully');
         }
@@ -160,22 +181,14 @@ const handleSubmit = (event) => {
         <div class="DarkerGrotesque text-[18px] mb-[5px]">Tags</div>
         <div class="flex gap-5 mb-5">
           <input
+          v-model="tagInputRef"
             placeholder="tag"
-            class="rounded-[12px] py-1 px-3 bg-[#D9D9D9] pr-3"
+            class="rounded-[12px] py-1 px-3 bg-[#D9D9D9] pr-3 tagInput"
           />
-          <button class="orderButton">add tag</button>
+          <div @click="pushTag" class="orderButton">add tag</div>
         </div>
         <div class="flex-wrap flex gap-[8px]">
-          <input
-            placeholder="tag"
-            class="rounded-[12px] py-1 px-3 bg-[#D9D9D9] pr-3 w-[50px]"
-          /><input
-            placeholder="tag"
-            class="rounded-[12px] py-1 px-3 bg-[#D9D9D9] pr-3 w-[50px]"
-          /><input
-            placeholder="tag"
-            class="rounded-[12px] py-1 px-3 w-[50px] bg-[#D9D9D9] pr-3"
-          />
+          <div @click="()=>{tags.value = tags.splice(index,1)}" class="hover:brightness-75 duration-[300ms] hover:cursor-pointer rounded-[12px] py-1 px-3 bg-[#D9D9D9] pr-3 w-[50px] w-max" v-for='(detail,index) in tags'>{{ detail }}</div>
         </div>
       </div>
 
@@ -189,6 +202,7 @@ const handleSubmit = (event) => {
           Save Changes
         </button>
         <button
+          @click="()=>{emit('onCloseForm')}"
           class="bg-[#F40606] orderButton min-w-[120px] text-[] text-[16px] rounded-[12px] px-3 py-1 DarkerGrotesque"
         >
           Discard

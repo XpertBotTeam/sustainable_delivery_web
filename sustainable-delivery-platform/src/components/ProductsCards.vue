@@ -1,5 +1,7 @@
 <script setup>
-import { defineProps,ref,onBeforeMount,computed } from "vue";
+import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { defineProps,ref,onBeforeMount,computed,defineEmits } from "vue";
 
 //import vuex store:
 import { useStore } from 'vuex';
@@ -7,6 +9,9 @@ const store = useStore();
 
 //define props variables
 const props = defineProps(["Product","companyName","edit"]);
+
+//define emits events
+const emit = defineEmits(['onEditProduct','onDeleteProduct']);
 
 const userType = ref(null)
 //extract userType
@@ -63,21 +68,21 @@ const handleAddToCart = async () => {
     <img
     :onerror="(e)=>{e.target.src='https://commercial.bunn.com/img/image-not-available.png'}"
       :class="`w-full mb-5  w-full h-[250px] object-contain ${props.edit? 'group-hover:blur-[8px]' : ''}`"
-      :src="props.Product.productId.imagePath || 'https://commercial.bunn.com/img/image-not-available.png'"
+      :src="(props.product && props.product.productId && props.Product.productId.imagePath) ?  props.Product.productId.imagePath: 'https://commercial.bunn.com/img/image-not-available.png'"
     />
 
     <div :class="`${props.edit? 'group-hover:blur-[8px]' : ''}`">
       <div :class="`mb-5 `">
         <div class="MontserratBold text-[14px] text-[black]">
-          {{ props.Product.productId.name }}
+          {{ (props.Product && props.Product.productId && props.Product.productId.name) ? props.Product.productId.name:'name' }}
         </div>
         <div class="Roboto text-[12px] text-[#8B8B8B]">
-          {{ props.Product.productId.description }}
+          {{ (props.Product && props.Product.productId && props.Product.productId.description) ? props.Product.productId.description:'description' }}
         </div>
       </div>
 
       <div class="Roboto text-[14px] mb-[10px]">
-        $<b>{{ props.Product.productId.price }}</b>
+        $<b>{{(props.Product && props.Product.productId && props.Product.productId.price) ? props.Product.productId.price:'0'  }}</b>
       </div>
       <button
       v-if="userType.value === 'User'"
@@ -88,6 +93,9 @@ const handleAddToCart = async () => {
       </button>
     </div>
 
-    <div class="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]"></div>
+    <div v-if="props.edit" class="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] flex  items-center gap-[10px]  group-hover:opacity-[100%] opacity-0 duration-[300ms]  group-hover:-translate-y-[10px]">
+      <button class="rounded-full p-1 bg-[#FF9900] aspect-[1/1] h-auto w-auto"><FontAwesomeIcon @click="()=>{emit('onEditProduct', props.Product.productId._id)}" class="text-white min-w-[30px]" :icon="faPenToSquare"></FontAwesomeIcon></button>
+      <button class="rounded-full p-1 bg-[#FF9900] aspect-[1/1] h-auto w-auto "><FontAwesomeIcon @click="()=>{emit('onDeleteProduct', props.Product.productId._id)}" class="text-white min-w-[30px]" :icon="faTrash"></FontAwesomeIcon></button>
+    </div>
   </div>
 </template>
