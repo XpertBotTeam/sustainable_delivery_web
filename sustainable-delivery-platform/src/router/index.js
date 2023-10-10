@@ -11,6 +11,7 @@ import ProfilePage from '../pages/ProfilePage.vue'//profile page
 import DeliveryGuyPage from '../pages/DeliveryGuyPage.vue'//deliveryGuy page
 import CompanyDetails from '../pages/CompanyDetails.vue' //company details, add edit products
 import CompanyOrders from '../pages/CompanyOrders.vue' //company orders page
+import CompanyOrderDetails from '../pages/CompanyOrderDetails.vue' //company Order Details
 
 
 //fontawesome icons
@@ -23,6 +24,10 @@ const routes = [
     path: '/company',
     name:'Company Details',
     component:CompanyDetails
+  },{
+    path: '/company/orders/:id',
+    name:'Company Order Details',
+    component:CompanyOrderDetails
   },
   {
     path: '/company/orders',

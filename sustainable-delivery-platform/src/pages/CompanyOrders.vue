@@ -72,7 +72,8 @@ onBeforeMount(() => {
     <div class="flex gap-5 w-[min(85%,1000px)] mx-auto mb-5">
           <TagComponent @click="filterTags(tag)" class="w-fit" :status="tag" v-for="tag in status" :key="tag">{{ tag }}</TagComponent>
       </div>
-
+      <div class=" w-[min(85%,1000px)] mx-auto">
       <companyOrdersCard :order="order" v-for="order in companyOrders"></companyOrdersCard>
+      </div>
   </div>
 </template>

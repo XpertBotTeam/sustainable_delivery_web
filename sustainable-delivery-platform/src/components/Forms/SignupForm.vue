@@ -128,6 +128,7 @@ const handleSubmit = async () => {
         </div>
         <input
           v-model="passwordRef"
+          type="password"
           name="password"
           class="w-full h-[25px] md:text-[24px] border-b-2 border-solid border-black mb-2"
         />

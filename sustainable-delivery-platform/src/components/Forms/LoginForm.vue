@@ -71,7 +71,7 @@ const handleSubmit = async () => {
             <input v-model="userNameRef" name="username" class="w-full h-[25px] border-b-2 border-solid border-black mb-5"/>
 
             <div class="text-[18px] md:text-[24px] text-[black] DarkerGrotesque">Password</div>
-            <input v-model="passwordRef" name="password" class="w-full h-[25px] border-b-2 border-solid border-black mb-5"/>
+            <input type="password" v-model="passwordRef" name="password" class="w-full h-[25px] border-b-2 border-solid border-black mb-5"/>
 
             <div class="DarkerGrotesque md:text-[14px] text-[12px] text-[#A09F9F] w-fit ml-auto mb-10 md:mb-20">Forget Password?</div>
 
