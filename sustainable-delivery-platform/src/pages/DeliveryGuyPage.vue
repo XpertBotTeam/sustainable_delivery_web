@@ -12,11 +12,34 @@ import OrderStatusCard from '@/components/OrderStatusCard.vue';
 
 import TagComponent from '@/components/TagComponent.vue';
 
+//fontawesome icons
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faSpinner,faBars } from '@fortawesome/free-solid-svg-icons';
+
+import DeliveryGuyNotification from '../components/DeliveryGuyNotification.vue'
+
 //define ref variables
-const deliveryOrders = ref({item:'asd'});
+const deliveryOrders = ref({item:''});
+const deliveryStatus = ref(null)
+
+let loading = ref(false);
 
 
 const status = ref(['Pending','Preparing','Prepared','Delivering','Delivered']);
+
+
+//set filter tags
+const filterTags = (tag) => {
+  if(tag){
+    deliveryStatus.value = tag;
+  }
+};
+
+
+watch(deliveryStatus,(newTags)=>{
+  fetchData();
+  console.log(newTags)
+},{deep:true})
 
 onBeforeMount(async()=>{
   //define store
@@ -35,6 +58,7 @@ watch(deliveryOrders , async (oldValue,newValue) =>{
 },{deep:true})
 //fetching delivery guy orders
 const fetchData = async () => {
+  loading = true;
   //define headers
   var myHeaders = new Headers();
   myHeaders.append("jwt", localStorage.getItem('JWT'));
@@ -47,9 +71,9 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch("http://localhost:3000/deliveryGuy/MyOrders", requestOptions)
+fetch(`http://localhost:3000/deliveryGuy/MyOrders?${deliveryStatus.value ? `status=${deliveryStatus.value}`: ''}`, requestOptions)
   .then(response => response.json())
-  .then(result => deliveryOrders.value = result.orders)
+  .then(result => {deliveryOrders.value = result.orders;loading = false})
   .catch(error => console.log('error', error));
 }
 
@@ -57,9 +81,18 @@ fetch("http://localhost:3000/deliveryGuy/MyOrders", requestOptions)
 <template>
     <div class="bg-gradient-to-b from-[#F7F7F7] to-[#D5D4D433]">
         <NavBar class="mb-10"></NavBar>
-        <div class="flex w-[min(85%,1000px)] mx-auto mb-5 gap-5">
-        <TagComponent class="w-fit" :status="tag" v-for="tag in status">{{ tag }}</TagComponent>
+        <div class="flex justify-between w-[min(85%,1000px)] mx-auto mb-5">
+        <div class="flex   gap-5">
+          <TagComponent @click="filterTags(tag)" class="w-fit" :status="tag" v-for="tag in status" :key="tag">{{ tag }}</TagComponent>
       </div>
+
+      <DeliveryGuyNotification v-if="loading"></DeliveryGuyNotification>
+      
+      <div class="h-full">
+      <FontAwesomeIcon class="min-w-[20px] h-auto" :icon="faBars"></FontAwesomeIcon>
+    </div>
+    </div>
+      <div v-if="loading === true" class="w-fit mx-auto animate-spin"><FontAwesomeIcon class="text-[32px] text-[#D9D9D9]" :icon="faSpinner"></FontAwesomeIcon></div>
 
         <div class="flex flex-col w-full gap-10">
             <OrderStatusCard v-for="order in deliveryOrders" :order="order" :key="order._id"></OrderStatusCard>

@@ -13,7 +13,7 @@ const props = defineProps(['status'])
                     props.status === 'Delivering' ? '#FF2E00' :
                         props.status === 'Delivered' ? '#01AB78' : 
                             props.status === 'Prepared' ? '#01AB78' : ''
-    }" :class="`orderButton text-center`">
+    }" :class="`orderButton text-center hover:cursor-pointer`">
         <slot></slot>
     </div>
 </template>

@@ -9,7 +9,13 @@ const props = defineProps(['order']);
 
 import useParseAddress from '../utils/useParseAddress'
 
-
+const addresses = [];
+props.order.companyOrders.forEach(order => {
+    if (order.address !== null && order.address) {
+        addresses.push(order.address);
+    }
+});
+alert(addresses)
 
 </script>
 <template>
@@ -34,7 +40,7 @@ import useParseAddress from '../utils/useParseAddress'
             </div>
             <TagComponent :status='props.order.status' class="w-full mt-5">{{ props.order.status }}</TagComponent>
         </div>
-        <MapComponent class="min-h-[190px] min-w-[240px] rounded-[20px]"></MapComponent>
+        <MapComponent :passThrough="addresses" :center="{lng:props.order.userId.address.longitude ?? 0,lat:props.order.userId.address.latitude ?? 0}" class="min-h-[190px] min-w-[240px] rounded-[20px]"></MapComponent>
        </div>
     </div>
 </template>

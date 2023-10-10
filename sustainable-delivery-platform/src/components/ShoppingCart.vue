@@ -23,7 +23,7 @@ watch(() => cart.value, (newCart, oldCart) => {
 
 </script>
 <template>
-    <div class="w-[25%] fixed top-0 right-0 bg-white rounded-[11px] overflow-auto h-[100dvh] flex flex-col justify-between">
+    <div class="w-[30%] fixed top-0 right-0 bg-white rounded-[11px] overflow-auto h-[100dvh] flex flex-col justify-between">
         <div class=" flex flex-col">
             <div class="w-full h-[50px] rounded-[11px] bg-[#000] shadow-[0_4px_10px_1px_rgba(12,12,12,0.37)]"></div>
         <div class="px-5 flex items-center justify-between py-3 border-b border-solid border-[black]">
