@@ -160,6 +160,8 @@ onBeforeMount(() => {
 <template>
   <div class="h-[100dvh] max-md:flex max-md:flex-col overflow-hidden">
     <NavBar></NavBar>
+
+    
   
     <div v-if="CompanyDetails != null" class="w-full h-full  overflow-hidden">
       <div class=" relative group w-full max-h-full">
@@ -167,12 +169,7 @@ onBeforeMount(() => {
         
         <img
         class="w-full h-full object-cover group-hover:brightness-[.8] brightness-[1] duration-[300ms] bannerImage"
-        @error="
-          (event) => {
-            event.target.src =
-            'https://tse3.mm.bing.net/th?id=OIP.FjLkalx51D8xJcpixUGJywHaE8&pid=Api&P=0&h=180';
-          }
-          "
+
         :src="CompanyDetails.bannerImage"
         />
         <button @click="handleFileopener" class="absolute block left-[50%] top-[50%] -translate-x-[50%] group-hover:-translate-y-[50%] duration-[300ms] -translate-y-[40%] rounded-full p-1 bg-[#FF9900] aspect-[1/1] h-auto w-auto "><FontAwesomeIcon  class="text-white min-w-[40px] h-auto p-3" :icon="faPenToSquare"></FontAwesomeIcon></button>

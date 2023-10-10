@@ -10,8 +10,13 @@ import { useStore } from 'vuex';
 import { useUserAuth } from '@/utils/useUserAuth';
 import OrderStatusCard from '@/components/OrderStatusCard.vue';
 
+import TagComponent from '@/components/TagComponent.vue';
+
 //define ref variables
 const deliveryOrders = ref({item:'asd'});
+
+
+const status = ref(['Pending','Preparing','Prepared','Delivering','Delivered']);
 
 onBeforeMount(async()=>{
   //define store
@@ -52,6 +57,9 @@ fetch("http://localhost:3000/deliveryGuy/MyOrders", requestOptions)
 <template>
     <div class="bg-gradient-to-b from-[#F7F7F7] to-[#D5D4D433]">
         <NavBar class="mb-10"></NavBar>
+        <div class="flex w-[min(85%,1000px)] mx-auto mb-5 gap-5">
+        <TagComponent class="w-fit" :status="tag" v-for="tag in status">{{ tag }}</TagComponent>
+      </div>
 
         <div class="flex flex-col w-full gap-10">
             <OrderStatusCard v-for="order in deliveryOrders" :order="order" :key="order._id"></OrderStatusCard>
