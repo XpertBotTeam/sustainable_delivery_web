@@ -13,7 +13,7 @@ const props = defineProps(['center'])
 
 //define emit events
 const emit = defineEmits(['onLocationChange'])
-
+alert(process.env.VUE_APP_GOOGLE_API_KEY)
 const loader = new Loader({apiKey:process.env.VUE_APP_GOOGLE_API_KEY})
 onMounted(async () => {
   await loader.load() ;

@@ -66,6 +66,42 @@ export default new Vuex.Store({
     clearCart(state) {
       state.cart = [];
     },
+    setInitialCart(state) {
+      var myHeaders = new Headers();
+      myHeaders.append("jwt", localStorage.getItem('JWT'));
+    
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+    
+      fetch("http://localhost:3000/user/myCart", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          // Assuming 'result' contains the response from the server
+    
+          // Assuming 'result.cart' is an array of cart items from the backend
+          const cartItems = result.cart.map(cartItem => {
+            return {
+              companyId: cartItem.companyId._id,
+              companyName: cartItem.companyId.name,
+              items: cartItem.items.map(item => {
+                return {
+                  id: item.product._id,
+                  name: item.product.name,
+                  quantity: item.quantity,
+                  price: item.product.price
+                };
+              })
+            };
+          });
+    
+          // Update the cart state
+          state.cart = cartItems // Assuming you have a mutation called 'setCart'
+        })
+        .catch(error => console.log('error', error));
+    },
     setAuth(state,{userAuth,userType}){
       state.userType=userType;
       state.userAuth = userAuth
@@ -78,6 +114,9 @@ export default new Vuex.Store({
     },
     removeFromCart({ commit }, { companyId, product, quantity }) {
       commit('removeFromCart', { companyId, product, quantity });
+    },
+    setInitialCart({commit}){
+      commit('setInitialCart')
     },
     clearCart({ commit }) {
       commit('clearCart');

@@ -40,6 +40,7 @@ onBeforeMount(async()=>{
 
 //auth check and set store variables
   const {userType,authorized,user} = await useUserAuth()
+  store.dispatch('setInitialCart')
   store.dispatch('setAuth', {authorized,userType});
   store.dispatch('setUser',{user})
 

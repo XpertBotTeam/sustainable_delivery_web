@@ -2,10 +2,16 @@
 import ShoppingCartCompanyProduct from './ShoppingCartCompanyProduct.vue';
 
 
-import { defineProps } from 'vue';
+import {  defineProps,computed } from 'vue';
 
 //define props variables
 const props = defineProps(["Company"]);
+
+const totalOrder = computed(() => {
+      return props.Company.items.reduce((total, item) => {
+        return total + (item.quantity * item.price);
+      }, 0);
+    });
 </script>
 <template>
         <div class="px-5 flex items-center justify-between py-3 bg-[#FF9900]">
@@ -16,6 +22,6 @@ const props = defineProps(["Company"]);
        
         <div class="px-5 flex items-center justify-between py-3 border-b border-dashed border-[#7D7777] gap-5 ">
             <div class="Montserrat text-[16px] uppercaseMontserrat text-[16px] uppercase">Subtotal</div>
-            <div class="Montserrat text-[16px] uppercase">$ 200</div>
+            <div class="Montserrat text-[16px] uppercase">$ {{totalOrder}}</div>
         </div>
 </template>
