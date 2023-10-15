@@ -17,6 +17,7 @@ onBeforeMount(() => {
 
 })
 
+
 console.log(user.value)
 </script>
 
@@ -30,19 +31,40 @@ console.log(user.value)
                     <div class="text-[#A1A1A1] DarkerGrotesque text-[14px]">{{ user.value.userName }}</div>
                 </div>
             </div>
+          
             <img class="max-w-[80px] md:max-w-[115px]" :src="Logo" alt="logo" />
             <div>
 
                 <div class="text-white flex gap-5 md:gap-10 max-md:hidden">
                     <div class="MontserratBold md:text-[18px] text-[16px]">
-                        <router-link to="/">Home</router-link>
+                        <router-link to="/">logout</router-link>
                     </div>
-                    <div class="MontserratBold md:text-[18px] text-[16px]">
-                        <router-link to="/">About Us</router-link>
+                    <div v-if="userType.value === 'User'" class="MontserratBold md:text-[18px] text-[16px]">
+                        <router-link to="/home">Home</router-link>
                     </div>
-                    <div class="MontserratBold md:text-[18px] text-[16px]">
-                        <router-link to="/">Contact Us</router-link>
+                    <div v-if="userType.value === 'Company'" class="MontserratBold md:text-[18px] text-[16px]">
+                        <router-link to="/company">Home</router-link>
                     </div>
+                    
+
+                    <div  class="MontserratBold md:text-[18px] text-[16px]">
+                        <router-link to="/profile">My Profile</router-link>
+                    </div>
+
+                    
+                    
+                    <div v-if="userType.value === 'User'" class="MontserratBold md:text-[18px] text-[16px]">
+                        <router-link to="/user/orders">My Orders</router-link>
+                    </div>
+
+                    <div v-if="userType.value === 'Company'" class="MontserratBold md:text-[18px] text-[16px]">
+                        <router-link to="/company/orders">My Orders</router-link>
+                    </div>
+
+                    <div v-if="userType.value === 'DeliveryGuy'" class="MontserratBold md:text-[18px] text-[16px]">
+                        <router-link to="/deliveryGuy">My Orders</router-link>
+                    </div>
+                    
                 </div>
                 <dropdown-list></dropdown-list>
             </div>

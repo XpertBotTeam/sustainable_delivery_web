@@ -13,6 +13,11 @@ import { ref } from 'vue';
 const userNameRef = ref('');
 const passwordRef = ref('');
 
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
+const toast = useToast()
+
 const handleSubmit = async () => {
     //define request headers
     var myHeaders = new Headers();
@@ -38,10 +43,10 @@ const handleSubmit = async () => {
         if (!response.ok) {
             if (response.status === 500) {
                 // server error
-                alert('network error please try again');
+                toast.error('network error please try again');
             } else if (response.status === 401) {
                 // error in credentials     
-                alert('error wrong credentials');
+                toast.error('error wrong credentials');
             }
             throw new Error('Network response was not ok');
         }
@@ -50,7 +55,7 @@ const handleSubmit = async () => {
     .then(result => {
         //set JWT token to be used
         localStorage.setItem('JWT', result.jwt);
-        alert('logged in successfully');
+        
         router.push('/home')
     })
     .catch(err => {

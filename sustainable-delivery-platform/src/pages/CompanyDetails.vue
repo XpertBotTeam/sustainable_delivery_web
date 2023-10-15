@@ -17,6 +17,7 @@ import AddProduct from "@/components/AddProduct.vue";
 //fontawesome
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { useToast } from "vue-toast-notification";
 
 //define router
 //const router = useRouter();
@@ -74,13 +75,13 @@ var requestOptions = {
 fetch("http://localhost:3000/company/updateBanner", requestOptions)
   .then(response => response.json())
   .then(result =>{if(result){
-    alert('done')
+    toast.success('success')
   }})
   .catch(error => console.log('error', error))
 
 }
 
-
+const toast = useToast()
 //deleting products
 const handleDeleteProduct = (productId) => {
   if(confirm('are you sure you want to delete product?')){
@@ -96,7 +97,7 @@ var requestOptions = {
 
 fetch(`http://localhost:3000/company/deleteProduct/${productId}`, requestOptions)
   .then(response => response.text())
-  .then(result => {if(result.ok){alert('deleted succesfully')}})
+  .then(result => {if(result.ok){toast.success('deleted succesfully')}})
   .catch(error => console.log('error', error));
   }
 }
@@ -106,7 +107,7 @@ fetch(`http://localhost:3000/company/deleteProduct/${productId}`, requestOptions
 const toggleAddProduct = (event) => {
   //event value is the product id emited from the product for editing, if not found thus we are adding new product
 
-  if(event.target ===undefined){
+  if(typeof(event) === 'string'){
     productEditId.value = event
   }else{
     productEditId.value= null

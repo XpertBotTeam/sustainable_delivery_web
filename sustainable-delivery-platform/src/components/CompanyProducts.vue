@@ -17,7 +17,7 @@
 <template>
     <div class= "mb-10 md:mb-20">
         <div class="w-full" v-if="props.CompanyProduct">
-        <img class=" w-full max-h-[300px]  mb-10" @error="(event) => { event.target.src = 'https://tse3.mm.bing.net/th?id=OIP.FjLkalx51D8xJcpixUGJywHaE8&pid=Api&P=0&h=180' }" :src="props.CompanyProduct.bannerImage"/>
+        <img class=" w-full max-h-[400px] object-cover  mb-10" @error="(event) => { event.target.src = 'https://tse3.mm.bing.net/th?id=OIP.FjLkalx51D8xJcpixUGJywHaE8&pid=Api&P=0&h=180' }" :src="props.CompanyProduct.bannerImage"/>
     </div>
 
         <div class="w-[min(85%,1000px)] mx-auto">

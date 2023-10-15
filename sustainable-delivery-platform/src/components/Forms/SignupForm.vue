@@ -10,6 +10,7 @@ const router = useRouter();
 
 //ref variables
 import { ref } from "vue";
+import { useToast } from "vue-toast-notification";
 
 //define ref variables
 const userNameRef = ref("");
@@ -19,6 +20,8 @@ const lastNameRef = ref("");
 
 //define props variables
 const props = defineProps(["Type"]);
+
+const toast = useToast()
 
 //handle form submission
 const handleSubmit = async () => {
@@ -47,12 +50,12 @@ const handleSubmit = async () => {
         if (!response.ok) {
           if (response.status === 500) {
             // server error
-            alert("network error please try again");
+            toast.error("network error please try again");
           } else if (response.status === 401) {
             // error in credentials
-            alert("error wrong credentials");
+            toast.error("error wrong credentials");
           }
-          throw new Error("Network response was not ok");
+          toast.error("Network response was not ok");
         }
         return response.json(); // This returns a promise that resolves to the JSON content
       })

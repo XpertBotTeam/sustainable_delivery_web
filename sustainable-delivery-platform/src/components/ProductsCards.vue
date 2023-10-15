@@ -2,6 +2,7 @@
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { defineProps,ref,onBeforeMount,computed,defineEmits } from "vue";
+import { useToast } from "vue-toast-notification";
 
 //import vuex store:
 import { useStore } from 'vuex';
@@ -9,6 +10,8 @@ const store = useStore();
 
 //define props variables
 const props = defineProps(["Product","companyName","edit"]);
+
+const toast = useToast();
 
 //define emits events
 const emit = defineEmits(['onEditProduct','onDeleteProduct']);
@@ -20,6 +23,8 @@ onBeforeMount(()=>{
     userType.value = computed(() => store.state.userType);
     
 })
+
+
 
 //add to cart funcxtionality
 const handleAddToCart = async () => {
@@ -52,7 +57,7 @@ const handleAddToCart = async () => {
     console.log(result.json());
   }else{
     store.dispatch('addToCart', { companyId, product: {id:productId,price: props.Product.productId.price,name: props.Product.productId.name}, quantity:1 ,companyName: props.companyName});
-    alert('added to cart succesfully')
+    toast.success('added to cart succesfully')
   }
    }catch(err){
      //error handling
@@ -66,9 +71,9 @@ const handleAddToCart = async () => {
     :class="`min-w-[290px] w-full relative rounded-[42px] group ${props.edit?'hover:bg-[#D9D9D9]' : ' bg-[white]'} duration-[300ms] shadow-[0_4px_10px_1px_rgba(12,12,12,0.37)] p-5`"
   >
     <img
-    :onerror="(e)=>{e.target.src='https://commercial.bunn.com/img/image-not-available.png'}"
+  :onerror="(e)=>{e.target.src='https://commercial.bunn.com/img/image-not-available.png'}"
       :class="`w-full mb-5  w-full h-[250px] object-contain ${props.edit? 'group-hover:blur-[8px]' : ''}`"
-      :src="(props.product && props.product.productId && props.Product.productId.imagePath) ?  props.Product.productId.imagePath: 'https://commercial.bunn.com/img/image-not-available.png'"
+      :src="(props.Product && props.Product.productId && props.Product.productId.imagePath) ?  props.Product.productId.imagePath: 'https://commercial.bunn.com/img/image-not-available.png'"
     />
 
     <div :class="`${props.edit? 'group-hover:blur-[8px]' : ''}`">

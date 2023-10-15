@@ -2,9 +2,9 @@
 import NavBar from "@/components/NavBars/NavBar.vue";
 
 //import ref for ref variables / onBeforeMount 
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount,watch } from "vue";
 //import vue router
-//import { useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 
 //vuex store
 import { useStore } from "vuex";
@@ -20,12 +20,17 @@ const deliveryStatus = ref(null)
 
 //set filter tags
 const filterTags = (tag) => {
-    if (tag) {
-        deliveryStatus.value = tag;
-    }
+  if(tag){
+    deliveryStatus.value = tag;
+  }
 };
-//define router
-//const router = useRouter();
+
+watch(deliveryStatus,(newTags)=>{
+  fetchData();
+  console.log(newTags)
+},{deep:true})
+
+const router = useRouter();
 
 onBeforeMount(async () => {
     //define store
@@ -34,6 +39,10 @@ onBeforeMount(async () => {
     //auth check and set store variables
     const { userType, authorized } = await useUserAuth()
     store.dispatch('setAuth', { authorized, userType });
+
+    if(userType!=='User'){
+        router.push('/')
+    }
 })
 
 const status = ref(['Pending', 'Preparing', 'Prepared', 'Delivering', 'Delivered']);
@@ -71,7 +80,7 @@ onBeforeMount(() => {
             </TagComponent>
         </div>
         <div class=" w-[min(85%,1000px)] mx-auto">
-            <UserOrdersCard :order="order" v-for="order in userOrders"/>
+            <UserOrdersCard :status="deliveryStatus" :order="order" v-for="order in userOrders"/>
         </div>
     </div>
 </template>

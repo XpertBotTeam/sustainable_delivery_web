@@ -9,7 +9,7 @@ export default new Vuex.Store({
   mutations: {
     setUser(state,{user}){
       state.user = user;
-      alert(user)
+    
     },
     addToCart(state, { companyId, product, quantity,companyName }) {
       //find company
@@ -44,12 +44,13 @@ export default new Vuex.Store({
       }
     },
     removeFromCart(state, { companyId, product, quantity }) {
+     
       //finding company order
       const companyOrder = state.cart.find(order => order.companyId === companyId);
-
+      
       if (companyOrder) {
         //company order found so we search for the product
-        const productIndex = companyOrder.items.findIndex(item => item.product.id === product.id);
+        const productIndex = companyOrder.items.findIndex(item => item.id === product.id);
 
         if (productIndex !== -1) {
           //product found
@@ -59,6 +60,7 @@ export default new Vuex.Store({
           } else {
             //item is now of 0 quantity so we just remove it
             companyOrder.items.splice(productIndex, 1);
+            
           }
         }
       }
@@ -109,10 +111,11 @@ export default new Vuex.Store({
   },
   actions: {
     addToCart({ commit }, { companyId, product, quantity ,companyName}) {
-        alert('companyName: '+companyName)
+      
       commit('addToCart', { companyId, product, quantity,companyName });
     },
     removeFromCart({ commit }, { companyId, product, quantity }) {
+      alert('done 1')
       commit('removeFromCart', { companyId, product, quantity });
     },
     setInitialCart({commit}){

@@ -18,11 +18,20 @@ import { faSpinner,faBars } from '@fortawesome/free-solid-svg-icons';
 
 import DeliveryGuyNotification from '../components/DeliveryGuyNotification.vue'
 
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
 //define ref variables
 const deliveryOrders = ref({item:''});
 const deliveryStatus = ref(null)
+const deliveryNotif = ref(false)
 
 let loading = ref(false);
+
+
+const toggleNotificationBar = () => {
+    deliveryNotif.value = !deliveryNotif.value
+  }
 
 
 const status = ref(['Pending','Preparing','Prepared','Delivering','Delivered']);
@@ -36,6 +45,7 @@ const filterTags = (tag) => {
 };
 
 
+
 watch(deliveryStatus,(newTags)=>{
   fetchData();
   console.log(newTags)
@@ -46,9 +56,16 @@ onBeforeMount(async()=>{
   const store = useStore();
 
 //auth check and set store variables
-  const {userType,authorized} = await useUserAuth()
-  store.dispatch('setAuth', {authorized,userType});
+  const {userType,authorized,user} = await useUserAuth()
 
+     
+  store.dispatch('setInitialCart')
+  store.dispatch('setAuth', {authorized,userType});
+  store.dispatch('setUser',{user})
+
+if(userType!=='DeliveryGuy'){
+  router.push('/')
+}
   //fetch data
   fetchData();
 })
@@ -63,6 +80,7 @@ const fetchData = async () => {
   var myHeaders = new Headers();
   myHeaders.append("jwt", localStorage.getItem('JWT'));
 
+  
 
 var requestOptions = {
   method: 'GET',
@@ -86,16 +104,16 @@ fetch(`http://localhost:3000/deliveryGuy/MyOrders?${deliveryStatus.value ? `stat
           <TagComponent @click="filterTags(tag)" class="w-fit" :status="tag" v-for="tag in status" :key="tag">{{ tag }}</TagComponent>
       </div>
 
-      <DeliveryGuyNotification v-if="loading"></DeliveryGuyNotification>
+      <DeliveryGuyNotification v-if="deliveryNotif === true"></DeliveryGuyNotification>
       
       <div class="h-full">
-      <FontAwesomeIcon class="min-w-[20px] h-auto" :icon="faBars"></FontAwesomeIcon>
+      <FontAwesomeIcon @click="toggleNotificationBar" class="min-w-[20px] h-auto" :icon="faBars"></FontAwesomeIcon>
     </div>
     </div>
       <div v-if="loading === true" class="w-fit mx-auto animate-spin"><FontAwesomeIcon class="text-[32px] text-[#D9D9D9]" :icon="faSpinner"></FontAwesomeIcon></div>
 
         <div class="flex flex-col w-full gap-10">
-            <OrderStatusCard v-for="order in deliveryOrders" :order="order" :key="order._id"></OrderStatusCard>
+            <OrderStatusCard    v-for="order in deliveryOrders" :order="order" :key="order._id"></OrderStatusCard>
         </div>
     </div>
 </template>

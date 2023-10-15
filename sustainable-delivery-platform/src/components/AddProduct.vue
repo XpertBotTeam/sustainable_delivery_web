@@ -1,6 +1,13 @@
 <script setup>
 import addImage from '../assets/addImage.png'
 import { ref,defineProps, onBeforeMount, watch,defineEmits} from "vue";
+
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
+//define toast messages
+const toast = useToast();
+
 //define ref variables
 const price = ref(null);
 const name = ref(null);
@@ -9,6 +16,7 @@ const description = ref(null);
 const tags = ref([]);
 
 const product = ref(null)
+
 
 
 const tagInputRef = ref(null)
@@ -51,7 +59,7 @@ const handelFileChange = (event) => {
   uploadedFile.value = event.target.files[0]
 }
 watch(product,(newValue)=>{
-  alert(JSON.stringify(newValue));
+
 },{deep:true})
 //open file uploader
 const handleFileOpener = () => {
@@ -88,6 +96,7 @@ const handleSubmit = (event) => {
     // Append fields to FormData
     formData.append('name', name.value);
     formData.append('imagePath', uploadedFile.value);
+    formData.append('description', description.value);
     formData.append('price', price.value);
     formData.append('tags', tags.value);
 
@@ -110,11 +119,13 @@ const handleSubmit = (event) => {
       .then((response) => response.json())
       .then((result) => {
         emit('onCloseForm');
-        if(result) {
-          alert('added successfully');
-        }
+        
+          toast.success('added succesfully')
+        
+          
+        
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => {toast.error('make sure to enter unique name for a product in your shop')});
 };
 
 </script>

@@ -6,9 +6,13 @@ import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
 import { watch,ref ,computed} from 'vue';
 
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
 import { useStore } from 'vuex';
 
+
+const toast = useToast()
 const store = useStore();
 const cart = computed(() => store.state.cart);
 
@@ -31,8 +35,9 @@ fetch("http://localhost:3000/user/placeOrder", requestOptions)
   .then(result => {
     console.log(result)
         store.dispatch('clearCart')
+        toast.success('Order placed succesfully')
   })
-  .catch(error => console.log('error', error));
+  .catch(error => {toast.error('couldnt place order')});
 }
 
 //console.log(cart); 

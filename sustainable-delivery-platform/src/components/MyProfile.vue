@@ -6,11 +6,14 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faLocationDot, faPenToSquare, faPhone } from "@fortawesome/free-solid-svg-icons";
 
 
-import MapComponent from "./MapComponent.vue";
+
 import { useUserAuth } from "@/utils/useUserAuth";
 
 //get user location
 import useGetLocation from '@/utils/useGetLocation';
+import MapComponentStatic from './MapComponentStatic.vue';
+
+import addImage from '../assets/addImage.png'
 
 //define ref variables
 const user = ref(null);
@@ -35,15 +38,39 @@ onBeforeMount(async () => {
 watch(user,async(newValue)=> {
   if(newValue.address && newValue.address.longitude && newValue.address.latitude){
     //address found from the backend
-    alert('founded: '+JSON.stringify({lng:newValue.address.longitude,lat:newValue.address.latitude}))
     center.value = {lng:newValue.address.longitude,lat:newValue.address.latitude}
   }else{
     //address not found from backend so we extract user address
     center.value =  await useGetLocation();
-    alert('not found '+JSON.stringify(await useGetLocation()))
+
   }
 
 })
+
+
+//change location
+const handleLocationChange = (LOCATION) => {
+  var myHeaders = new Headers();
+myHeaders.append("jwt", localStorage.getItem('JWT'));
+myHeaders.append("Content-Type", "application/json");
+alert(JSON.stringify(LOCATION))
+
+var raw = JSON.stringify({
+  "location": LOCATION
+});
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+
+fetch("http://localhost:3000/admin/updateLocation", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+}
 </script>
 
 
@@ -64,7 +91,7 @@ watch(user,async(newValue)=> {
         </button>
       </div>
 
-      <img :onerror="(e)=>{e.target.src='../assets/addImage.png'}" :src="(user&&user.bannerImage)?user.bannerImage:'/src//assets/addImage.png'" alt="add your image"/>
+      <img :onerror="(e)=>{e.target.src=addImage}" :src="(user&&user.bannerImage)?user.bannerImage:'/src//assets/addImage.png'" alt="add your image"/>
     </div>
     <div class="flex-1 ">
       <div class="flex justify-between items-center mb-5">
@@ -102,7 +129,8 @@ watch(user,async(newValue)=> {
         </button>
         
       </div>
-      <MapComponent v-if="center" class="h-[150px] w-[200px]" :center="center"></MapComponent>
+      <MapComponentStatic @onLocationChange="handleLocationChange" v-if="center !==null && center!==undefined " class="h-[150px] w-[200px]" :center="center"></MapComponentStatic>
+      
       <div v-if="center" class="Roboto text-[14px] text-[#929292]">
           Select a location to udate your location
         </div>

@@ -13,10 +13,13 @@ import { useUserAuth } from "@/utils/useUserAuth";
 import TagComponent from "@/components/TagComponent.vue";
 
 import companyOrdersCard from '@/components/CompanyOrdersCard.vue'
+import { useRouter } from "vue-router";
 
 //define ref variables
 const companyOrders = ref(null)
 const deliveryStatus = ref(null)
+
+const router = useRouter()
 
 //set filter tags
 const filterTags = (tag) => {
@@ -34,6 +37,9 @@ onBeforeMount(async()=>{
 //auth check and set store variables
   const {userType,authorized} = await useUserAuth()
   store.dispatch('setAuth', {authorized,userType});
+  if(userType!=='Company'){
+  router.push('/')
+}
 })
 
 const status = ref(['Pending','Preparing','Prepared','Delivering','Delivered']);
@@ -59,6 +65,7 @@ fetch("http://localhost:3000/company/orders", requestOptions)
   .catch(error => console.log('error', error));
 };
 
+
 onBeforeMount(() => {
   //extract companyId
   fetchData();
@@ -66,14 +73,14 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <div class="h-[100dvh] max-md:flex max-md:flex-col overflow-hidden">
+  <div class="min-h-[100dvh] max-md:flex max-md:flex-col overflow-hidden">
     <NavBar class="mb-10"></NavBar>
 
     <div class="flex gap-5 w-[min(85%,1000px)] mx-auto mb-5">
           <TagComponent @click="filterTags(tag)" class="w-fit" :status="tag" v-for="tag in status" :key="tag">{{ tag }}</TagComponent>
       </div>
       <div class=" w-[min(85%,1000px)] mx-auto">
-      <companyOrdersCard :order="order" v-for="order in companyOrders"></companyOrdersCard>
+      <companyOrdersCard  class="mb-5" :order="orderaa" v-for="orderaa in companyOrders" :status="deliveryStatus"></companyOrdersCard>
       </div>
   </div>
 </template>

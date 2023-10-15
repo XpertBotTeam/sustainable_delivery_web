@@ -59,7 +59,7 @@ onBeforeMount(async()=>{
     <NavBar class="mb-10"></NavBar>
 
       <div class=" w-[min(85%,1000px)] mx-auto">
-        <CompanyOrderDetailsCard :order = 'orderDetails.orders[0]'></CompanyOrderDetailsCard>
+        <CompanyOrderDetailsCard v-if="orderDetails" :order = 'orderDetails.orders[0]'></CompanyOrderDetailsCard>
       </div>
   </div>
 </template>
