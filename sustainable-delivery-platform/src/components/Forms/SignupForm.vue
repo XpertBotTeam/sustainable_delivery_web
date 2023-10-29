@@ -12,11 +12,15 @@ const router = useRouter();
 import { ref } from "vue";
 import { useToast } from "vue-toast-notification";
 
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+
 //define ref variables
 const userNameRef = ref("");
 const passwordRef = ref("");
 const firstNameRef = ref("");
 const lastNameRef = ref("");
+const loading = ref(false);
 
 //define props variables
 const props = defineProps(["Type"]);
@@ -44,9 +48,11 @@ const handleSubmit = async () => {
       body: JSON.stringify(formData),
       redirect: "follow",
     };
+    loading.value = true
     //sending request
     fetch(`http://localhost:3000/auth/signup`, requestOptions)
       .then((response) => {
+        loading.value=false
         if (!response.ok) {
           if (response.status === 500) {
             // server error
@@ -64,6 +70,7 @@ const handleSubmit = async () => {
         router.push('/login')
       })
       .catch((err) => {
+        loading.value=false
         // error handling
         console.error(err);
       });
@@ -147,7 +154,7 @@ const handleSubmit = async () => {
             ></router-link
           >
         </div>
-
+       
         <button
           :class="
             'w-full text-[18px] md:text-[24px] text-white rounded-[12px]  py-2 DarkerGrotesqueBold duration-[500ms] ' +
@@ -156,7 +163,13 @@ const handleSubmit = async () => {
             (props.Type === 'User' ? 'bg-[#8C8C8C]' : '')
           "
         >
-          Sign Up
+        
+        <div v-if="loading" class="animate-spin w-fit h-fit mx-auto">
+      <font-awesome-icon class="text-[white] text-[32px]" :icon="faSpinner"></font-awesome-icon>
+    </div>
+    <div v-else>
+      Sign Up
+    </div>
         </button>
       </div>
     </form>

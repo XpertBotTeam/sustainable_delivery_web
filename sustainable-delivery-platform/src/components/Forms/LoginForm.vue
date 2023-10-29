@@ -12,6 +12,10 @@ import { ref } from 'vue';
 //define ref variables
 const userNameRef = ref('');
 const passwordRef = ref('');
+const loading = ref(false)
+
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
@@ -29,6 +33,7 @@ const handleSubmit = async () => {
     "userName": userNameRef.value,
     "password": passwordRef.value
     });
+    loading.value=true
 
     //request options
     var requestOptions = {
@@ -40,6 +45,8 @@ const handleSubmit = async () => {
 
     fetch(`http://localhost:3000/auth/login`, requestOptions)
     .then(response => {
+        loading.value=false
+
         if (!response.ok) {
             if (response.status === 500) {
                 // server error
@@ -59,6 +66,7 @@ const handleSubmit = async () => {
         router.push('/home')
     })
     .catch(err => {
+        loading.value=false
         // error handling
         console.error(err);
     });
@@ -80,7 +88,13 @@ const handleSubmit = async () => {
 
             <div class="DarkerGrotesque md:text-[14px] text-[12px] text-[#A09F9F] w-fit ml-auto mb-10 md:mb-20">Forget Password?</div>
 
-            <button :class="'w-full text-[18px] md:text-[24px] text-white rounded-[12px]  pt-2 pb-2 DarkerGrotesqueBold duration-[500ms] bg-[black]' ">Login</button>
+            <button :class="'w-full text-[18px] md:text-[24px] text-white rounded-[12px]  pt-2 pb-2 DarkerGrotesqueBold duration-[500ms] bg-[black]' ">
+                <div v-if="loading" class="animate-spin w-fit h-fit mx-auto">
+      <font-awesome-icon class="text-[white] text-[32px]" :icon="faSpinner"></font-awesome-icon>
+    </div>
+    <div v-else>
+      Login
+    </div></button>
         </div>
     </form>
 
