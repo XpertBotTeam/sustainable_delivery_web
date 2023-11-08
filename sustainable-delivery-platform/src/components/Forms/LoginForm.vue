@@ -17,6 +17,7 @@ const loading = ref(false)
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
+//import toast (popup notifications)
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
 
@@ -62,7 +63,7 @@ const handleSubmit = async () => {
     .then(result => {
         //set JWT token to be used
         localStorage.setItem('JWT', result.jwt);
-        
+        console.log(JSON.stringify(result))
         router.push('/home')
     })
     .catch(err => {

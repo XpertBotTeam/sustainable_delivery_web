@@ -110,7 +110,7 @@ fetch(`http://localhost:3000/deliveryGuy/MyOrders?${deliveryStatus.value ? `stat
       <FontAwesomeIcon @click="toggleNotificationBar" class="min-w-[20px] h-auto" :icon="faBars"></FontAwesomeIcon>
     </div>
     </div>
-      <div v-if="loading === true" class="w-fit mx-auto animate-spin"><FontAwesomeIcon class="text-[32px] text-[#D9D9D9]" :icon="faSpinner"></FontAwesomeIcon></div>
+      <div v-if="loading === true" class="w-fit mx-auto animate-spin"><FontAwesomeIcon class="text-[32px] text-[#929292]" :icon="faSpinner"></FontAwesomeIcon></div>
 
         <div class="flex flex-col w-full gap-10">
             <OrderStatusCard    v-for="order in deliveryOrders" :order="order" :key="order._id"></OrderStatusCard>

@@ -1,6 +1,6 @@
 <script setup>
 import addImage from '../assets/addImage.png'
-import { ref,defineProps, onBeforeMount, watch,defineEmits} from "vue";
+import { ref,defineProps, onBeforeMount,defineEmits} from "vue";
 
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
@@ -58,9 +58,7 @@ fetch(`http://localhost:3000/shop/getProductsByCompany?productId=${props.product
 const handelFileChange = (event) => {
   uploadedFile.value = event.target.files[0]
 }
-watch(product,(newValue)=>{
 
-},{deep:true})
 //open file uploader
 const handleFileOpener = () => {
   const input = document.getElementById('fileInput')

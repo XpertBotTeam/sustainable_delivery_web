@@ -51,23 +51,26 @@ const handleSubmit = async () => {
     loading.value = true
     //sending request
     fetch(`http://localhost:3000/auth/signup`, requestOptions)
-      .then((response) => {
+      .then(async (response) => {
         loading.value=false
-        if (!response.ok) {
-          if (response.status === 500) {
-            // server error
-            toast.error("network error please try again");
-          } else if (response.status === 401) {
-            // error in credentials
-            toast.error("error wrong credentials");
-          }
-          toast.error("Network response was not ok");
-        }
-        return response.json(); // This returns a promise that resolves to the JSON content
+        return await response.json(); // This returns a promise that resolves to the JSON content
       })
       .then((result) => {
         console.log(result)
-        router.push('/login')
+        if(result.message.toString() === 'Signup successful'){
+          //signup succesful
+          router.push('/login')
+        }else if(result.message.toString() === 'user already found'){
+          toast.info(message.toString())
+        }
+          else{
+          result.message.forEach(value => {
+            //alert the messages
+            toast.error(value.msg || value);
+          })
+          
+        }
+        
       })
       .catch((err) => {
         loading.value=false
@@ -111,6 +114,7 @@ const handleSubmit = async () => {
         </div>
         <input
           v-model="firstNameRef"
+          :required="true"
           name="name"
           class="w-full h-[25px] border-b-2 border-solid border-black mb-5"
         />
@@ -119,6 +123,7 @@ const handleSubmit = async () => {
           Last Name
         </div>
         <input
+          :required="true"
           v-model="lastNameRef"
           name="lname"
           class="w-full h-[25px] border-b-2 border-solid border-black mb-5"
@@ -129,6 +134,8 @@ const handleSubmit = async () => {
         </div>
         <input
           v-model="userNameRef"
+          required
+          type="email"
           name="userName"
           class="w-full h-[25px] border-b-2 border-solid border-black mb-5"
         />
@@ -138,6 +145,8 @@ const handleSubmit = async () => {
         </div>
         <input
           v-model="passwordRef"
+          minlength="8"
+          :required="true"
           type="password"
           name="password"
           class="w-full h-[25px] md:text-[24px] border-b-2 border-solid border-black mb-2"

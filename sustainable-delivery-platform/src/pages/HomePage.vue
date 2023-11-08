@@ -6,11 +6,12 @@
 
     <NavBarSecondary @cartPress="()=>{handleCart = !handleCart}"></NavBarSecondary>
     
-    <ShoppingCart v-show="handleCart"></ShoppingCart>
+    <ShoppingCart @closeCart="()=>{handleCart = !handleCart}" v-show="handleCart"></ShoppingCart>
 
     <div v-for="products in productCompanies.companies" :key="products.id">
       <CompanyProducts :CompanyProduct="products"></CompanyProducts>
     </div>
+    <FooterComponent></FooterComponent>
   </div>
 </template>
 
@@ -32,11 +33,17 @@ import CompanyProducts from "@/components/CompanyProducts.vue";
 import ShoppingCart from "@/components/ShoppingCart.vue";
 import CarouselSlider from "@/components/CarouselSlider.vue";
 
+import FooterComponent from "@/components/FooterComponent.vue";
+
 //auth related utils and methods
 import { useUserAuth } from "@/utils/useUserAuth";
 import { useStore } from "vuex";
 
+//popup
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
+const toast = useToast();
 //const { authorized } = await useUserAuth();
 
 onBeforeMount(async()=>{
@@ -44,10 +51,14 @@ onBeforeMount(async()=>{
   const store = useStore();
 
 //auth check and set store variables
-  const {userType,authorized,user} = await useUserAuth()
+  const {userType,authorized,user,verified} = await useUserAuth()
   store.dispatch('setInitialCart')
   store.dispatch('setAuth', {authorized,userType});
   store.dispatch('setUser',{user})
+
+  if(!verified){
+    toast.info(`<b>Verification Mail:</b> Please check your email`)
+  }
 
   //fetching data (company products)
   fetchData();

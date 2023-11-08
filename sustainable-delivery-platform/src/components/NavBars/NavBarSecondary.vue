@@ -22,7 +22,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 </script>
 <template>
-    <div class="w-[85%] mx-auto flex items-center py-5 my-10">
+    <div class="w-[85%] mx-auto flex items-center py-5 my-2 md:my-5">
         <SearchBar class="justify-self-center ml-auto mr-auto"></SearchBar>
         <div v-if="userType.value === 'User'" class=""><font-awesome-icon @click="emit('cartPress')" class="min-w-[20px] h-auto cursor-pointer" :icon="['fas', 'bag-shopping']" /></div>
     </div>

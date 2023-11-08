@@ -35,14 +35,14 @@ const useUserAuth = async () => {
       }
 
       //return authData
-      return { authorized: data.authorized, userType: data.userType, JWT: authToken,user:data.user };
+      return { authorized: data.authorized, userType: data.userType, JWT: authToken,user:data.user,verified:data.verified };
 
     } catch (error) {
       console.error("Error fetching data:", error);
-      return { authorized: false, userType: null, JWT: null,user:null };
+      return { authorized: false, userType: null, JWT: null,user:null,verified:null };
     }
   } else {
-    return { authorized: false, userType: null, JWT: null,user:null };
+    return { authorized: false, userType: null, JWT: null,user:null,verified:null };
   }
   
 }
